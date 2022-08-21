@@ -45,9 +45,9 @@ namespace TechJobsConsole
             foreach (Dictionary<string, string> job in AllJobs)
             {
                 isFound = false;
-                foreach (KeyValuePair<string, string> kv in job)
+                foreach (KeyValuePair<string, string> kvp in job)
                 {
-                    string searchMatch = kv.Value.ToLower();
+                    string searchMatch = kvp.Value.ToLower();
                     if (!isFound)
                     {
                         if (searchMatch.Contains(searchTerm.ToLower()))
