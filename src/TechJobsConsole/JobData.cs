@@ -37,19 +37,40 @@ namespace TechJobsConsole
             }
             return values;
         }
-
+        public static List<Dictionary<string, string>> FindByValue(string searchTerm)
+        {
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+            bool isFound = false;
+            LoadData();
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                isFound = false;
+                foreach (KeyValuePair<string, string> kv in job)
+                {
+                    string searchMatch = kv.Value.ToLower();
+                    if (!isFound)
+                    {
+                        if (searchMatch.Contains(searchTerm.ToLower()))
+                        {
+                            jobs.Add(job);
+                            isFound = true;
+                        }
+                    }
+                }
+            }
+            return jobs;
+        }
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
             LoadData();
 
-            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>(); //jobs is a list of dictionary with key value pair
 
-            foreach (Dictionary<string, string> row in AllJobs)
+            foreach (Dictionary<string, string> row in AllJobs) //Alljobs is a list of dictionary
             {
-                string aValue = row[column];
-
-                if (aValue.Contains(value))
+                string aValue = row[column].ToLower(); //row is a dictionary entry in alljobs with keyvalue pairs
+                if (aValue.Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
@@ -57,6 +78,8 @@ namespace TechJobsConsole
 
             return jobs;
         }
+
+
 
         /*
          * Load and parse data from job_data.csv
